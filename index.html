@@ -1,0 +1,2252 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Concept Academy - Online Exam</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Noto Sans Bengali',sans-serif;
+    background:#f4f8ff;
+    color:#182033;
+    min-height:100vh;
+}
+
+/* =========================
+COVER
+========================= */
+
+.cover{
+    width:100%;
+    max-width:1100px;
+    margin:auto;
+    background:#fff;
+}
+
+.cover img{
+    width:100%;
+    display:block;
+    object-fit:cover;
+}
+
+/* =========================
+START PAGE
+========================= */
+
+#startPage{
+    min-height:100vh;
+    padding-bottom:50px;
+    background:
+        radial-gradient(circle at top left,#dbeafe,transparent 35%),
+        radial-gradient(circle at bottom right,#ccfbf1,transparent 35%),
+        #f8fafc;
+}
+
+.start-wrapper{
+    max-width:1100px;
+    margin:auto;
+}
+
+.start-card{
+    width:calc(100% - 30px);
+    max-width:520px;
+    margin:30px auto 0;
+    background:white;
+    border-radius:25px;
+    padding:32px 28px;
+    box-shadow:0 18px 55px rgba(30,64,175,.13);
+    border:1px solid #e4ecf7;
+}
+
+.exam-icon{
+    width:72px;
+    height:72px;
+    margin:0 auto 15px;
+    border-radius:22px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(135deg,#1d4ed8,#0891b2);
+    color:#fff;
+    font-size:34px;
+    box-shadow:0 12px 30px rgba(37,99,235,.25);
+}
+
+.start-card h1{
+    text-align:center;
+    color:#10245c;
+    font-size:27px;
+}
+
+.start-subtitle{
+    text-align:center;
+    color:#64748b;
+    margin-top:7px;
+    margin-bottom:27px;
+    font-size:14px;
+}
+
+.name-label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:700;
+    color:#1e293b;
+}
+
+#studentName{
+    width:100%;
+    padding:15px 16px;
+    border:2px solid #dce4ef;
+    border-radius:13px;
+    outline:none;
+    font-family:inherit;
+    font-size:16px;
+    transition:.2s;
+}
+
+#studentName:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 0 4px rgba(37,99,235,.10);
+}
+
+.start-btn{
+    width:100%;
+    margin-top:17px;
+    padding:15px;
+    border:0;
+    border-radius:13px;
+    color:white;
+    background:linear-gradient(135deg,#1d4ed8,#0284c7);
+    font-family:inherit;
+    font-size:17px;
+    font-weight:800;
+    cursor:pointer;
+    box-shadow:0 12px 28px rgba(37,99,235,.24);
+}
+
+/* =========================
+EXAM PAGE
+========================= */
+
+#examPage,
+#resultPage{
+    display:none;
+}
+
+.exam-cover{
+    background:#fff;
+}
+
+.exam-cover img{
+    width:100%;
+    max-height:300px;
+    object-fit:cover;
+    display:block;
+}
+
+.topbar{
+    position:sticky;
+    top:0;
+    z-index:1000;
+    background:rgba(255,255,255,.95);
+    backdrop-filter:blur(13px);
+    border-bottom:1px solid #e2e8f0;
+    box-shadow:0 4px 18px rgba(15,23,42,.06);
+}
+
+.topbar-inner{
+    max-width:1000px;
+    margin:auto;
+    padding:12px 16px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+}
+
+.exam-heading h2{
+    font-size:19px;
+    color:#172554;
+}
+
+.exam-heading p{
+    font-size:12px;
+    color:#64748b;
+}
+
+.exam-status{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.progress-box,
+.timer-box{
+    padding:9px 12px;
+    border-radius:12px;
+    font-size:14px;
+    font-weight:800;
+    white-space:nowrap;
+}
+
+.progress-box{
+    background:#dbeafe;
+    color:#1d4ed8;
+}
+
+.timer-box{
+    background:#d1fae5;
+    color:#047857;
+}
+
+.timer-box.warning{
+    background:#fef3c7;
+    color:#b45309;
+}
+
+.timer-box.danger{
+    background:#fee2e2;
+    color:#b91c1c;
+    animation:pulse 1s infinite;
+}
+
+@keyframes pulse{
+    50%{
+        transform:scale(1.04);
+    }
+}
+
+.exam-container{
+    max-width:900px;
+    margin:auto;
+    padding:25px 15px 60px;
+}
+
+.student-info{
+    padding:18px 20px;
+    border-radius:18px;
+    color:white;
+    background:linear-gradient(135deg,#172554,#1d4ed8,#0891b2);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:22px;
+    box-shadow:0 13px 30px rgba(29,78,216,.17);
+}
+
+.student-info strong{
+    font-size:18px;
+}
+
+.question-card{
+    background:#fff;
+    padding:22px;
+    border-radius:19px;
+    margin-bottom:18px;
+    border:1px solid #e3eaf3;
+    box-shadow:0 7px 25px rgba(15,23,42,.06);
+    transition:.2s;
+}
+
+.question-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 12px 30px rgba(15,23,42,.09);
+}
+
+.question-number{
+    display:inline-block;
+    padding:6px 11px;
+    border-radius:9px;
+    background:#e0e7ff;
+    color:#3730a3;
+    font-size:13px;
+    font-weight:800;
+    margin-bottom:12px;
+}
+
+.question-text{
+    margin-bottom:15px;
+    color:#172033;
+    font-size:18px;
+    line-height:1.75;
+    font-weight:700;
+}
+
+.options{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.option{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:13px;
+    border:2px solid #e5e7eb;
+    border-radius:14px;
+    background:#fff;
+    cursor:pointer;
+    transition:.16s;
+    line-height:1.6;
+}
+
+.option:hover{
+    background:#f0f7ff;
+    border-color:#93c5fd;
+}
+
+.option input{
+    margin-top:5px;
+    transform:scale(1.2);
+    accent-color:#2563eb;
+}
+
+.option:has(input:checked){
+    border-color:#2563eb;
+    background:linear-gradient(135deg,#eff6ff,#ecfeff);
+    color:#1d4ed8;
+    box-shadow:0 4px 15px rgba(37,99,235,.08);
+}
+
+.submit-section{
+    margin-top:28px;
+    padding:25px;
+    background:#fff;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 10px 30px rgba(15,23,42,.07);
+}
+
+.submit-section h3{
+    color:#172554;
+}
+
+.submit-section p{
+    margin-top:5px;
+    color:#64748b;
+    font-size:14px;
+}
+
+.submit-btn{
+    margin-top:16px;
+    min-width:240px;
+    padding:15px 30px;
+    border:0;
+    border-radius:13px;
+    color:#fff;
+    background:linear-gradient(135deg,#16a34a,#059669);
+    font-family:inherit;
+    font-size:17px;
+    font-weight:800;
+    cursor:pointer;
+    box-shadow:0 12px 25px rgba(5,150,105,.25);
+}
+
+/* =========================
+CUSTOM SUBMIT POPUP
+========================= */
+
+.modal-overlay{
+    position:fixed;
+    inset:0;
+    z-index:5000;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    background:rgba(15,23,42,.52);
+    backdrop-filter:blur(5px);
+}
+
+.modal-box{
+    width:100%;
+    max-width:390px;
+    padding:29px 25px;
+    border-radius:22px;
+    background:#fff;
+    text-align:center;
+    box-shadow:0 30px 80px rgba(0,0,0,.25);
+    animation:popup .2s ease;
+}
+
+@keyframes popup{
+    from{
+        opacity:0;
+        transform:scale(.92);
+    }
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+.modal-icon{
+    width:60px;
+    height:60px;
+    margin:0 auto 14px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#eff6ff;
+    font-size:28px;
+}
+
+.modal-box h3{
+    font-size:20px;
+    color:#172554;
+}
+
+.modal-buttons{
+    margin-top:22px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.modal-buttons button{
+    padding:12px;
+    border:0;
+    border-radius:11px;
+    font-family:inherit;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.modal-cancel{
+    background:#f1f5f9;
+    color:#475569;
+}
+
+.modal-confirm{
+    background:#2563eb;
+    color:#fff;
+}
+
+/* =========================
+RESULT PAGE
+========================= */
+
+.result-container{
+    max-width:900px;
+    margin:30px auto 60px;
+    padding:0 15px;
+}
+
+.result-header{
+    padding:30px 20px;
+    border-radius:24px;
+    background:linear-gradient(135deg,#172554,#1d4ed8,#0891b2);
+    color:white;
+    text-align:center;
+    box-shadow:0 20px 50px rgba(29,78,216,.22);
+}
+
+.result-header h1{
+    font-size:28px;
+}
+
+#resultStudentName{
+    margin-top:5px;
+    opacity:.9;
+}
+
+.score-circle{
+    width:155px;
+    height:155px;
+    margin:20px auto 15px;
+    border-radius:50%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    border:8px solid rgba(255,255,255,.25);
+    background:rgba(255,255,255,.14);
+}
+
+#finalScore{
+    font-size:38px;
+    font-weight:800;
+}
+
+.score-circle small{
+    opacity:.9;
+}
+
+.result-statistics{
+    margin-top:20px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+}
+
+.stat{
+    padding:12px 8px;
+    border-radius:13px;
+    background:rgba(255,255,255,.13);
+}
+
+.stat strong{
+    display:block;
+    font-size:22px;
+}
+
+.stat span{
+    font-size:11px;
+    opacity:.9;
+}
+
+.score-details{
+    margin-top:20px;
+    padding:18px;
+    border-radius:17px;
+    background:#fff;
+    box-shadow:0 7px 25px rgba(15,23,42,.06);
+}
+
+.score-details h3{
+    margin-bottom:8px;
+    color:#172554;
+}
+
+.score-details p{
+    line-height:1.9;
+    color:#475569;
+}
+
+.answer-title{
+    margin:28px 0 15px;
+    color:#172554;
+    font-size:22px;
+}
+
+.review-card{
+    padding:19px;
+    margin-bottom:13px;
+    border-radius:16px;
+    border-left:6px solid #cbd5e1;
+    background:#fff;
+    box-shadow:0 5px 18px rgba(15,23,42,.05);
+}
+
+.review-card.correct{
+    border-left-color:#22c55e;
+    background:#f0fdf4;
+}
+
+.review-card.wrong{
+    border-left-color:#ef4444;
+    background:#fff7f7;
+}
+
+.review-card.unanswered{
+    border-left-color:#f59e0b;
+    background:#fffbeb;
+}
+
+.review-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+}
+
+.review-question{
+    font-weight:700;
+    line-height:1.65;
+}
+
+.review-status{
+    padding:5px 9px;
+    border-radius:7px;
+    font-size:12px;
+    font-weight:800;
+    white-space:nowrap;
+}
+
+.review-status.correct{
+    background:#bbf7d0;
+    color:#166534;
+}
+
+.review-status.wrong{
+    background:#fecaca;
+    color:#991b1b;
+}
+
+.review-status.unanswered{
+    background:#fde68a;
+    color:#92400e;
+}
+
+.answer-row{
+    margin-top:7px;
+    color:#475569;
+    font-size:14px;
+}
+
+.correct-answer{
+    color:#15803d;
+    font-weight:700;
+}
+
+.wrong-answer{
+    color:#dc2626;
+    font-weight:700;
+}
+
+/* =========================
+BOTTOM ACTIONS
+========================= */
+
+.result-bottom-actions{
+    margin:30px auto;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:12px;
+    flex-wrap:wrap;
+}
+
+.download-answer-btn,
+.restart-btn{
+    margin:0;
+    border:none;
+    border-radius:13px;
+    padding:14px 22px;
+    font-family:inherit;
+    font-size:15px;
+    font-weight:800;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.download-answer-btn{
+    color:white;
+    background:linear-gradient(135deg,#0284c7,#2563eb);
+    box-shadow:0 10px 25px rgba(37,99,235,.20);
+}
+
+.restart-btn{
+    color:white;
+    background:#172554;
+}
+
+.download-answer-btn:hover,
+.restart-btn:hover{
+    transform:translateY(-2px);
+}
+
+/* =========================
+MOBILE
+========================= */
+
+@media(max-width:700px){
+
+    .options{
+        grid-template-columns:1fr;
+    }
+
+    .result-statistics{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .topbar-inner{
+        align-items:flex-start;
+    }
+
+    .exam-heading h2{
+        font-size:15px;
+    }
+
+    .exam-status{
+        flex-direction:column;
+        gap:5px;
+    }
+
+    .progress-box,
+    .timer-box{
+        padding:6px 9px;
+        font-size:12px;
+    }
+
+    .question-card{
+        padding:18px;
+    }
+
+    .question-text{
+        font-size:16px;
+    }
+
+    .exam-cover img{
+        max-height:170px;
+    }
+
+    .result-bottom-actions{
+        flex-direction:column;
+    }
+
+    .download-answer-btn,
+    .restart-btn{
+        width:100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+START PAGE
+========================= -->
+
+<section id="startPage">
+
+<div class="start-wrapper">
+
+    <div class="cover">
+        <img
+            src="https://i.ibb.co.com/PZKXDfDw/file-000000003dac81faa476057232945b0c.png"
+            alt="Concept Academy Online Exam"
+        >
+    </div>
+
+    <div class="start-card">
+
+        <div class="exam-icon">
+            📝
+        </div>
+
+        <h1>
+            পদার্থবিজ্ঞান MCQ পরীক্ষা
+        </h1>
+
+        <p class="start-subtitle">
+            মোট প্রশ্ন ২৫ • সময় ২৫ মিনিট
+        </p>
+
+        <label
+            class="name-label"
+            for="studentName"
+        >
+            ছাত্র/ছাত্রীর নাম
+        </label>
+
+        <input
+            type="text"
+            id="studentName"
+            placeholder="আপনার সম্পূর্ণ নাম লিখুন"
+            autocomplete="name"
+        >
+
+        <button
+            class="start-btn"
+            onclick="startExam()"
+        >
+            পরীক্ষা শুরু করুন →
+        </button>
+
+    </div>
+
+</div>
+
+</section>
+
+<!-- =========================
+EXAM PAGE
+========================= -->
+
+<section id="examPage">
+
+<div class="exam-cover">
+    <img
+        src="https://i.ibb.co.com/PZKXDfDw/file-000000003dac81faa476057232945b0c.png"
+        alt="Concept Academy Online Exam"
+    >
+</div>
+
+<div class="topbar">
+
+<div class="topbar-inner">
+
+    <div class="exam-heading">
+
+        <h2>
+            ⚛ পদার্থবিজ্ঞান MCQ
+        </h2>
+
+        <p>
+            মোট নম্বর ২৫
+        </p>
+
+    </div>
+
+    <div class="exam-status">
+
+        <div
+            class="progress-box"
+            id="progressText"
+        >
+            উত্তর: ০/২৫
+        </div>
+
+        <div
+            class="timer-box"
+            id="timer"
+        >
+            ⏱ ২৫:০০
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+<div class="exam-container">
+
+<div class="student-info">
+
+    <div>
+        পরীক্ষার্থী:
+        <strong id="examStudentName"></strong>
+    </div>
+
+    <div>
+        Negative Mark: −০.২৫
+    </div>
+
+</div>
+
+<div id="questionsContainer"></div>
+
+<div class="submit-section">
+
+    <h3>
+        পরীক্ষা শেষ?
+    </h3>
+
+    <p>
+        প্রস্তুত হলে পরীক্ষা জমা দিন।
+    </p>
+
+    <button
+        class="submit-btn"
+        onclick="showSubmitModal()"
+    >
+        পরীক্ষা জমা দিন
+    </button>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- =========================
+SUBMIT POPUP
+========================= -->
+
+<div
+    class="modal-overlay"
+    id="submitModal"
+>
+
+<div class="modal-box">
+
+    <div class="modal-icon">
+        📤
+    </div>
+
+    <h3>
+        আপনি কি পরীক্ষা জমা দিতে চান?
+    </h3>
+
+    <div class="modal-buttons">
+
+        <button
+            class="modal-cancel"
+            onclick="closeSubmitModal()"
+        >
+            না
+        </button>
+
+        <button
+            class="modal-confirm"
+            onclick="confirmSubmit()"
+        >
+            হ্যাঁ, জমা দিন
+        </button>
+
+    </div>
+
+</div>
+
+</div>
+
+<!-- =========================
+RESULT PAGE
+========================= -->
+
+<section id="resultPage">
+
+<div class="result-container">
+
+<div class="result-header">
+
+    <h1>
+        পরীক্ষার ফলাফল
+    </h1>
+
+    <div id="resultStudentName"></div>
+
+    <div class="score-circle">
+
+        <div id="finalScore">
+            0
+        </div>
+
+        <small>
+            ২৫ এর মধ্যে
+        </small>
+
+    </div>
+
+    <div class="result-statistics">
+
+        <div class="stat">
+
+            <strong id="correctCount">
+                0
+            </strong>
+
+            <span>
+                ✅ সঠিক
+            </span>
+
+        </div>
+
+        <div class="stat">
+
+            <strong id="wrongCount">
+                0
+            </strong>
+
+            <span>
+                ❌ ভুল
+            </span>
+
+        </div>
+
+        <div class="stat">
+
+            <strong id="unansweredCount">
+                0
+            </strong>
+
+            <span>
+                ⚪ উত্তরহীন
+            </span>
+
+        </div>
+
+        <div class="stat">
+
+            <strong id="answeredCount">
+                0
+            </strong>
+
+            <span>
+                ✍️ উত্তর দিয়েছেন
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div
+    class="score-details"
+    id="scoreDetails"
+></div>
+
+<h2 class="answer-title">
+    📋 আপনার উত্তরপত্র
+</h2>
+
+<div id="answerReview"></div>
+
+<div class="result-bottom-actions">
+
+    <button
+        class="download-answer-btn"
+        onclick="downloadAnswerSheet()"
+    >
+        📥 সংশোধনীসহ উত্তরপত্র ডাউনলোড করুন
+    </button>
+
+    <button
+        class="restart-btn"
+        onclick="location.reload()"
+    >
+        ↻ আবার পরীক্ষা দিন
+    </button>
+
+</div>
+
+</div>
+
+</section>
+
+<script>
+
+/* =========================
+GOOGLE SHEET WEB APP
+========================= */
+
+const GOOGLE_SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbx5foCJYRu3HyfRzWjq8CX5LYDoRFZp3UBAMgS79dh0xGTholVBFD5SNndOaPAPwo1d/exec";
+
+/* =========================
+QUESTIONS
+========================= */
+
+const questions = [
+
+{
+q:"শব্দের তীব্রতার একক কোনটি?",
+options:[
+"Nm⁻²",
+"Hz",
+"Wm⁻²",
+"Nm"
+],
+answer:2
+},
+
+{
+q:"অবতল আয়না ব্যবহৃত হয়— i. ডাক্তারী কাজে ii. টেলিস্কোপে iii. দৈনন্দিন জীবনে। নিচের কোনটি সঠিক?",
+options:[
+"i ও ii",
+"i ও iii",
+"ii ও iii",
+"i, ii ও iii"
+],
+answer:3
+},
+
+{
+q:"প্রেসার কুকারে—",
+options:[
+"পানির স্ফুটনাঙ্ক কমে যায়",
+"তাপমাত্রা কম থাকে",
+"চাপ কমে যায়",
+"তাড়াতাড়ি সিদ্ধ হয়"
+],
+answer:3
+},
+
+{
+q:"শব্দ তরঙ্গের বিস্তার তিনগুণ করলে শব্দের তীব্রতা কতগুণ হবে?",
+options:[
+"১/৯ গুণ",
+"১/৩ গুণ",
+"৩ গুণ",
+"৯ গুণ"
+],
+answer:3
+},
+
+{
+q:"নিচের কোনটির একক ভিন্ন?",
+options:[
+"প্রবতা",
+"পীড়ন",
+"স্থিতিস্থাপক গুণাঙ্ক",
+"বাল্ক মডুলাস"
+],
+answer:0
+},
+
+{
+q:"লক্ষ্যবস্তু অসীম ও বক্রতার কেন্দ্রের মধ্যে থাকলে অবতল দর্পণে সৃষ্ট বিম্বের প্রকৃতি কী হবে?",
+options:[
+"সদ ও উল্টো",
+"অসদ ও সোজা",
+"সদ ও সোজা",
+"অসদ ও উল্টো"
+],
+answer:0
+},
+
+{
+q:"বাতাসে শব্দের বেগ 350 ms⁻¹। একটি বস্তু বাতাসে যে শব্দ সৃষ্টি করে তার তরঙ্গদৈর্ঘ্য 1250 cm। এর পর্যায়কালের মান কত?",
+options:[
+"28 s",
+"3.571 s",
+"0.28 s",
+"0.0357 s"
+],
+answer:3
+},
+
+{
+q:"একজন ব্যক্তির উচ্চতা 168 cm। পূর্ণবিম্ব দেখার জন্য তার কমপক্ষে কত দৈর্ঘ্যের সমতল দর্পণের প্রয়োজন?",
+options:[
+"84 cm",
+"112 cm",
+"168 cm",
+"336 cm"
+],
+answer:0
+},
+
+{
+q:"বিকৃতি— i. হচ্ছে অবস্থার পরিবর্তন ii. এর কোনো একক নেই iii. পীড়নের ব্যস্তানুপাতিক। নিচের কোনটি সঠিক?",
+options:[
+"i ও ii",
+"ii ও iii",
+"i ও iii",
+"i, ii ও iii"
+],
+answer:0
+},
+
+{
+q:"পানিতে শব্দের বেগ কত?",
+options:[
+"1284 ms⁻¹",
+"1450 ms⁻¹",
+"1493 ms⁻¹",
+"5130 ms⁻¹"
+],
+answer:1
+},
+
+{
+q:"লাল গোলাপ ফুল লাল দেখার কারণ— i. কেবল লাল রং প্রতিফলন করে ii. লাল রং ছাড়া সব রং শোষণ করে iii. লাল আলোর তরঙ্গদৈর্ঘ্য বেশি। নিচের কোনটি সঠিক?",
+options:[
+"i ও ii",
+"i ও iii",
+"ii ও iii",
+"i, ii ও iii"
+],
+answer:0
+},
+
+{
+q:"ব্যারোমিটারের পারদ উচ্চচাপ দেখালে বোঝা যায়—",
+options:[
+"ঝড় আসছে",
+"আবহাওয়া ভালো",
+"জলীয় বাষ্প বেড়ে যায়",
+"ঘনত্ব কমে যায়"
+],
+answer:1
+},
+
+{
+q:"তরঙ্গস্থিত দুটি সমদশা সম্পন্ন কণার সর্বনিম্ন দূরত্ব কত?",
+options:[
+"λ/4",
+"λ/2",
+"2λ/3",
+"λ"
+],
+answer:3
+},
+
+{
+q:"বড় বড় টেলিস্কোপে কোনটি ব্যবহার করা হয়?",
+options:[
+"উত্তল আয়না",
+"অবতল আয়না",
+"সমতল আয়না",
+"উত্তল লেন্স"
+],
+answer:1
+},
+
+{
+q:"নিচের কোনটির চাপ বাড়লে গলনাঙ্ক কমে?",
+options:[
+"মোম",
+"বরফ",
+"তামা",
+"সোনা"
+],
+answer:1
+},
+
+{
+q:"সুরযুক্ত শব্দের বৈশিষ্ট্য নয় কোনটি?",
+options:[
+"তীব্রতা",
+"স্থিতিস্থাপকতা",
+"পিচ",
+"টিম্বার"
+],
+answer:1
+},
+
+{
+q:"একটি সমতল দর্পণের 10 cm সামনে লক্ষ্যবস্তু স্থাপন করলে প্রতিবিম্বটি লক্ষ্যবস্তু থেকে কত cm দূরে গঠিত হবে?",
+options:[
+"0",
+"5",
+"10",
+"20"
+],
+answer:3
+},
+
+{
+q:"নিচের কোন সম্পর্কটি সঠিক?",
+options:[
+"3α = 2β = γ",
+"Q = mSC",
+"gT² = 4π²l",
+"ρA = RL"
+],
+answer:2
+},
+
+{
+q:"40°C তাপমাত্রায় শব্দের প্রতিধ্বনি শোনার জন্য সর্বনিম্ন দূরত্ব কত হতে হবে?",
+options:[
+"17.7 m",
+"17.6 m",
+"17.4 m",
+"16.6 m"
+],
+answer:0
+},
+
+{
+q:"অবতল দর্পণে রৈখিক বিবর্ধন 1 পেতে হলে বস্তুকে কোথায় স্থাপন করতে হবে?",
+options:[
+"অসীমে",
+"অসীম ও বক্রতার কেন্দ্রের মধ্যে",
+"বক্রতার কেন্দ্রে",
+"প্রধান ফোকাসে"
+],
+answer:2
+},
+
+{
+q:"তরলের উপরিতলের ক্ষেত্রফল বৃদ্ধি পেলে, নিচের কোনটি ঘটে থাকে?",
+options:[
+"বাষ্পায়ন দ্রুত হয়",
+"বাষ্পায়ন হ্রাস পায়",
+"অপরিবর্তিত থাকে",
+"হ্রাস পায় পরে বৃদ্ধি পায়"
+],
+answer:0
+},
+
+{
+q:"পর পর দুটি তরঙ্গ শীর্ষের দূরত্ব 2 cm। একটি তরঙ্গ শীর্ষ ও পরবর্তী তরঙ্গ পাদের দূরত্ব কত cm?",
+options:[
+"2",
+"1.5",
+"1",
+"0.5"
+],
+answer:2
+},
+
+{
+q:"একটি উত্তল দর্পণে সৃষ্ট প্রতিবিম্বের ক্ষেত্রে নিচের কোনটি সঠিক?",
+options:[
+"বাস্তব ও উল্টো",
+"অত্যন্ত বিবর্ধিত",
+"লক্ষ্যবস্তুর সমান",
+"ফোকাসের ভিতরে অবস্থিত"
+],
+answer:3
+},
+
+{
+q:"প্যাসকেলের সূত্রের ক্ষেত্রে নিচের কোনটি সঠিক?",
+options:[
+"বল হ্রাস পায়",
+"আয়তন বৃদ্ধি পায়",
+"শক্তি বৃদ্ধি পায়",
+"কাজ একই থাকে"
+],
+answer:3
+},
+
+{
+q:"শব্দের তীব্রতা I এবং তরঙ্গের বিস্তার A হলে নিচের কোনটি সঠিক?",
+options:[
+"AI = 1",
+"A ∝ √I",
+"A ∝ 1/√I",
+"A ∝ 1/I"
+],
+answer:1
+}
+
+];
+
+const optionLabels = ["ক","খ","গ","ঘ"];
+
+let studentName="";
+let timeLeft=25*60;
+let timerInterval=null;
+let submitted=false;
+let examStartTime=null;
+let finalExamResult=null;
+
+/* =========================
+START EXAM
+========================= */
+
+function startExam(){
+
+    const input =
+    document
+    .getElementById("studentName")
+    .value
+    .trim();
+
+    if(!input){
+
+        alert("অনুগ্রহ করে আপনার নাম লিখুন।");
+
+        document
+        .getElementById("studentName")
+        .focus();
+
+        return;
+    }
+
+    studentName=input;
+    examStartTime=Date.now();
+
+    document
+    .getElementById("startPage")
+    .style.display="none";
+
+    document
+    .getElementById("examPage")
+    .style.display="block";
+
+    document
+    .getElementById("examStudentName")
+    .innerText=studentName;
+
+    renderQuestions();
+    startTimer();
+
+    window.scrollTo(0,0);
+}
+
+/* =========================
+RENDER QUESTIONS
+========================= */
+
+function renderQuestions(){
+
+    const container =
+    document.getElementById("questionsContainer");
+
+    container.innerHTML="";
+
+    questions.forEach((question,index)=>{
+
+        let optionsHTML="";
+
+        question.options.forEach((option,optIndex)=>{
+
+            optionsHTML += `
+                <label class="option">
+                    <input
+                        type="radio"
+                        name="question${index}"
+                        value="${optIndex}"
+                        onchange="updateProgress()"
+                    >
+                    <span>
+                        <b>(${optionLabels[optIndex]})</b>
+                        ${option}
+                    </span>
+                </label>
+            `;
+        });
+
+        container.innerHTML += `
+            <div class="question-card">
+
+                <div class="question-number">
+                    প্রশ্ন ${index+1}
+                </div>
+
+                <div class="question-text">
+                    ${question.q}
+                </div>
+
+                <div class="options">
+                    ${optionsHTML}
+                </div>
+
+            </div>
+        `;
+    });
+}
+
+/* =========================
+PROGRESS
+========================= */
+
+function updateProgress(){
+
+    let answered=0;
+
+    questions.forEach((q,index)=>{
+
+        if(
+            document.querySelector(
+                `input[name="question${index}"]:checked`
+            )
+        ){
+            answered++;
+        }
+    });
+
+    document
+    .getElementById("progressText")
+    .innerText=
+    `উত্তর: ${answered}/${questions.length}`;
+}
+
+/* =========================
+TIMER
+========================= */
+
+function startTimer(){
+
+    updateTimer();
+
+    timerInterval=
+    setInterval(()=>{
+
+        timeLeft--;
+
+        updateTimer();
+
+        if(timeLeft<=0){
+
+            clearInterval(timerInterval);
+
+            submitExam();
+        }
+
+    },1000);
+}
+
+function updateTimer(){
+
+    const timer =
+    document.getElementById("timer");
+
+    const minutes =
+    Math.floor(timeLeft/60);
+
+    const seconds =
+    timeLeft%60;
+
+    timer.innerText=
+    `⏱ ${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`;
+
+    timer.classList.remove("warning","danger");
+
+    if(timeLeft<=60){
+        timer.classList.add("danger");
+    }
+    else if(timeLeft<=300){
+        timer.classList.add("warning");
+    }
+}
+
+/* =========================
+SUBMIT POPUP
+========================= */
+
+function showSubmitModal(){
+
+    document
+    .getElementById("submitModal")
+    .style.display="flex";
+}
+
+function closeSubmitModal(){
+
+    document
+    .getElementById("submitModal")
+    .style.display="none";
+}
+
+function confirmSubmit(){
+
+    closeSubmitModal();
+
+    submitExam();
+}
+
+/* =========================
+GET ANSWERS FOR GOOGLE SHEET
+========================= */
+
+function getStudentAnswers(){
+
+    const answerList=[];
+
+    questions.forEach((question,index)=>{
+
+        const selected =
+        document.querySelector(
+            `input[name="question${index}"]:checked`
+        );
+
+        if(selected){
+
+            const selectedIndex =
+            Number(selected.value);
+
+            answerList.push(
+                `${index+1}. ${optionLabels[selectedIndex]}`
+            );
+        }
+        else{
+            answerList.push(
+                `${index+1}. —`
+            );
+        }
+    });
+
+    return answerList.join(" | ");
+}
+
+/* =========================
+SAVE TO GOOGLE SHEET
+========================= */
+
+async function saveResultToGoogleSheet(
+    score,
+    correct,
+    wrong,
+    unanswered
+){
+
+    let durationSeconds=0;
+
+    if(examStartTime){
+
+        durationSeconds=
+        Math.floor(
+            (Date.now()-examStartTime)/1000
+        );
+    }
+
+    const durationMinutes=
+    Math.floor(durationSeconds/60);
+
+    const durationRemainSeconds=
+    durationSeconds%60;
+
+    const durationText=
+    `${durationMinutes}:${String(durationRemainSeconds).padStart(2,"0")}`;
+
+    const resultData={
+        name:studentName,
+        score:score,
+        correct:correct,
+        wrong:wrong,
+        unanswered:unanswered,
+        answers:getStudentAnswers(),
+        duration:durationText
+    };
+
+    try{
+
+        await fetch(
+            GOOGLE_SCRIPT_URL,
+            {
+                method:"POST",
+                mode:"no-cors",
+                headers:{
+                    "Content-Type":"text/plain;charset=utf-8"
+                },
+                body:JSON.stringify(resultData)
+            }
+        );
+
+        console.log("Result sent to Google Sheet");
+    }
+    catch(error){
+
+        console.error(
+            "Google Sheet save failed:",
+            error
+        );
+    }
+}
+
+/* =========================
+SUBMIT EXAM
+========================= */
+
+function submitExam(){
+
+    if(submitted){
+        return;
+    }
+
+    submitted=true;
+
+    clearInterval(timerInterval);
+
+    let correct=0;
+    let wrong=0;
+    let unanswered=0;
+    let answered=0;
+    let score=0;
+    let reviewHTML="";
+
+    questions.forEach((question,index)=>{
+
+        const selected =
+        document.querySelector(
+            `input[name="question${index}"]:checked`
+        );
+
+        let status;
+        let statusText;
+        let userAnswer;
+
+        if(!selected){
+
+            unanswered++;
+
+            status="unanswered";
+            statusText="উত্তর দেওয়া হয়নি";
+            userAnswer="উত্তর দেওয়া হয়নি";
+        }
+        else{
+
+            answered++;
+
+            const selectedIndex=
+            Number(selected.value);
+
+            userAnswer=
+            `(${optionLabels[selectedIndex]}) ${question.options[selectedIndex]}`;
+
+            if(selectedIndex===question.answer){
+
+                correct++;
+                score+=1;
+
+                status="correct";
+                statusText="সঠিক";
+            }
+            else{
+
+                wrong++;
+                score-=0.25;
+
+                status="wrong";
+                statusText="ভুল";
+            }
+        }
+
+        const correctAnswer=
+        `(${optionLabels[question.answer]}) ${question.options[question.answer]}`;
+
+        reviewHTML += `
+            <div class="review-card ${status}">
+
+                <div class="review-top">
+
+                    <div class="review-question">
+                        ${index+1}. ${question.q}
+                    </div>
+
+                    <span class="review-status ${status}">
+                        ${statusText}
+                    </span>
+
+                </div>
+
+                <div class="answer-row">
+                    আপনার উত্তর:
+                    <span class="${
+                        status==="wrong"
+                        ? "wrong-answer"
+                        : status==="correct"
+                        ? "correct-answer"
+                        : ""
+                    }">
+                        ${userAnswer}
+                    </span>
+                </div>
+
+                <div class="answer-row">
+                    সঠিক উত্তর:
+                    <span class="correct-answer">
+                        ${correctAnswer}
+                    </span>
+                </div>
+
+            </div>
+        `;
+    });
+
+    score=
+    Math.round(score*100)/100;
+
+    finalExamResult={
+        studentName:studentName,
+        score:score,
+        correct:correct,
+        wrong:wrong,
+        unanswered:unanswered
+    };
+
+    saveResultToGoogleSheet(
+        score,
+        correct,
+        wrong,
+        unanswered
+    );
+
+    document
+    .getElementById("examPage")
+    .style.display="none";
+
+    document
+    .getElementById("resultPage")
+    .style.display="block";
+
+    document
+    .getElementById("resultStudentName")
+    .innerText=
+    `পরীক্ষার্থী: ${studentName}`;
+
+    document
+    .getElementById("finalScore")
+    .innerText=score;
+
+    document
+    .getElementById("correctCount")
+    .innerText=correct;
+
+    document
+    .getElementById("wrongCount")
+    .innerText=wrong;
+
+    document
+    .getElementById("unansweredCount")
+    .innerText=unanswered;
+
+    document
+    .getElementById("answeredCount")
+    .innerText=answered;
+
+    document
+    .getElementById("scoreDetails")
+    .innerHTML=`
+
+        <h3>
+            নম্বরের হিসাব
+        </h3>
+
+        <p>
+
+            সঠিক:
+            <b>
+                ${correct} × ১ = ${correct}
+            </b>
+
+            <br>
+
+            ভুল:
+            <b>
+                ${wrong} × ০.২৫ =
+                ${(wrong*0.25).toFixed(2)}
+                নম্বর কর্তন
+            </b>
+
+            <br>
+
+            উত্তর না দেওয়া:
+            <b>
+                ${unanswered}
+            </b>
+
+            <br><br>
+
+            মোট প্রাপ্ত নম্বর:
+
+            <strong
+                style="
+                    color:#1d4ed8;
+                    font-size:21px;
+                "
+            >
+                ${score} / 25
+            </strong>
+
+        </p>
+    `;
+
+    document
+    .getElementById("answerReview")
+    .innerHTML=reviewHTML;
+
+    window.scrollTo(0,0);
+}
+
+/* =========================
+DOWNLOAD ANSWER SHEET
+========================= */
+
+function downloadAnswerSheet(){
+
+    if(!finalExamResult){
+
+        alert("ফলাফল পাওয়া যায়নি।");
+
+        return;
+    }
+
+    let answerHTML="";
+
+    questions.forEach((question,index)=>{
+
+        const selected =
+        document.querySelector(
+            `input[name="question${index}"]:checked`
+        );
+
+        let userAnswer="উত্তর দেওয়া হয়নি";
+        let status="উত্তরহীন";
+        let statusClass="unanswered";
+
+        if(selected){
+
+            const selectedIndex=
+            Number(selected.value);
+
+            userAnswer=
+            `(${optionLabels[selectedIndex]}) ${question.options[selectedIndex]}`;
+
+            if(selectedIndex===question.answer){
+
+                status="✓ সঠিক";
+                statusClass="correct";
+            }
+            else{
+
+                status="✗ ভুল";
+                statusClass="wrong";
+            }
+        }
+
+        const correctAnswer=
+        `(${optionLabels[question.answer]}) ${question.options[question.answer]}`;
+
+        answerHTML += `
+
+        <div class="question ${statusClass}">
+
+            <div class="question-head">
+
+                <strong>
+                    ${index+1}. ${question.q}
+                </strong>
+
+                <span class="status ${statusClass}">
+                    ${status}
+                </span>
+
+            </div>
+
+            <div class="answer">
+                আপনার উত্তর:
+                <strong>
+                    ${userAnswer}
+                </strong>
+            </div>
+
+            <div class="answer correct-answer">
+                সঠিক উত্তর:
+                <strong>
+                    ${correctAnswer}
+                </strong>
+            </div>
+
+        </div>
+        `;
+    });
+
+    const reportHTML = `
+<!DOCTYPE html>
+<html lang="bn">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+
+<title>
+${studentName} - সংশোধনীসহ উত্তরপত্র
+</title>
+
+<link
+href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;600;700;800&display=swap"
+rel="stylesheet"
+>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Noto Sans Bengali',sans-serif;
+    margin:0;
+    background:#f5f8fc;
+    color:#172033;
+}
+
+.page{
+    max-width:850px;
+    margin:25px auto;
+    background:white;
+    padding:30px;
+    border-radius:20px;
+}
+
+.header{
+    text-align:center;
+    padding:25px;
+    border-radius:18px;
+    color:white;
+    background:
+    linear-gradient(
+        135deg,
+        #172554,
+        #1d4ed8,
+        #0891b2
+    );
+}
+
+.header h1{
+    margin:0 0 8px;
+}
+
+.student{
+    margin-top:8px;
+    font-size:17px;
+}
+
+.score{
+    font-size:34px;
+    font-weight:800;
+    margin-top:14px;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+    margin-top:18px;
+}
+
+.stat{
+    background:rgba(255,255,255,.14);
+    padding:10px;
+    border-radius:10px;
+}
+
+.stat strong{
+    display:block;
+    font-size:21px;
+}
+
+.title{
+    margin:28px 0 15px;
+    color:#172554;
+}
+
+.question{
+    margin-bottom:13px;
+    padding:17px;
+    border-radius:13px;
+    border-left:5px solid #f59e0b;
+    background:#fffbeb;
+    page-break-inside:avoid;
+}
+
+.question.correct{
+    border-left-color:#22c55e;
+    background:#f0fdf4;
+}
+
+.question.wrong{
+    border-left-color:#ef4444;
+    background:#fff7f7;
+}
+
+.question-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:10px;
+    line-height:1.6;
+}
+
+.status{
+    flex:none;
+    font-size:12px;
+    font-weight:800;
+    padding:4px 8px;
+    border-radius:6px;
+}
+
+.status.correct{
+    background:#bbf7d0;
+    color:#166534;
+}
+
+.status.wrong{
+    background:#fecaca;
+    color:#991b1b;
+}
+
+.status.unanswered{
+    background:#fde68a;
+    color:#92400e;
+}
+
+.answer{
+    margin-top:7px;
+    font-size:14px;
+}
+
+.correct-answer{
+    color:#15803d;
+}
+
+.print-area{
+    text-align:center;
+    margin:25px 0 10px;
+}
+
+.print-btn{
+    border:0;
+    padding:13px 25px;
+    border-radius:10px;
+    background:#2563eb;
+    color:white;
+    font-family:inherit;
+    font-weight:700;
+    font-size:15px;
+    cursor:pointer;
+}
+
+.note{
+    text-align:center;
+    color:#64748b;
+    font-size:12px;
+    margin-top:20px;
+}
+
+@media(max-width:600px){
+
+    .page{
+        margin:0;
+        border-radius:0;
+        padding:16px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .question-head{
+        flex-direction:column;
+    }
+}
+
+@media print{
+
+    body{
+        background:white;
+    }
+
+    .page{
+        margin:0;
+        max-width:none;
+        padding:10px;
+    }
+
+    .print-area{
+        display:none;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="page">
+
+<div class="header">
+
+    <h1>
+        Concept Academy
+    </h1>
+
+    <div>
+        পদার্থবিজ্ঞান MCQ পরীক্ষার সংশোধনীসহ উত্তরপত্র
+    </div>
+
+    <div class="student">
+        পরীক্ষার্থী:
+        <strong>
+            ${studentName}
+        </strong>
+    </div>
+
+    <div class="score">
+        ${finalExamResult.score} / 25
+    </div>
+
+    <div class="stats">
+
+        <div class="stat">
+            <strong>
+                ${finalExamResult.correct}
+            </strong>
+            সঠিক
+        </div>
+
+        <div class="stat">
+            <strong>
+                ${finalExamResult.wrong}
+            </strong>
+            ভুল
+        </div>
+
+        <div class="stat">
+            <strong>
+                ${finalExamResult.unanswered}
+            </strong>
+            উত্তরহীন
+        </div>
+
+    </div>
+
+</div>
+
+<h2 class="title">
+    উত্তরপত্র ও সংশোধনী
+</h2>
+
+${answerHTML}
+
+<div class="print-area">
+
+    <button
+        class="print-btn"
+        onclick="window.print()"
+    >
+        📥 PDF হিসেবে Save / Download করুন
+    </button>
+
+</div>
+
+<div class="note">
+    Concept Academy by Shuvo • Online Exam
+</div>
+
+</div>
+
+</body>
+</html>
+`;
+
+    const reportWindow=
+    window.open(
+        "",
+        "_blank"
+    );
+
+    if(!reportWindow){
+
+        alert(
+            "Download page খোলা যায়নি। Browser-এর popup permission Allow করুন।"
+        );
+
+        return;
+    }
+
+    reportWindow.document.open();
+
+    reportWindow.document.write(
+        reportHTML
+    );
+
+    reportWindow.document.close();
+}
+
+/* =========================
+ENTER KEY
+========================= */
+
+document
+.getElementById("studentName")
+.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key==="Enter"){
+            startExam();
+        }
+    }
+);
+
+</script>
+
+</body>
+</html>
